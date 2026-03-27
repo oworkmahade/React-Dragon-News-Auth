@@ -1,7 +1,12 @@
+import Header from "../Shared/Header/Header";
+import Navbar from "../Shared/Navbar/Navbar";
+
 const Home = () => {
   return (
     <div>
-      <h2 className="text-3xl font-bold font-poppins">Home</h2>
+      <Header></Header>
+      <Navbar></Navbar>
+      <h2>Home</h2>
     </div>
   );
 };
