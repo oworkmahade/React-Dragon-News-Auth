@@ -1,6 +1,6 @@
 const LeftSideNav = () => {
   return (
-    <div>
+    <div className="border-2 border-gray-600">
       <h2>Left Side Nav</h2>
     </div>
   );
