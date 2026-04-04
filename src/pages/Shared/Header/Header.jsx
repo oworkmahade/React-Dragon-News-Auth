@@ -1,5 +1,5 @@
 import logo from "../../../assets/logo.png";
-import moment from "moment-timezone";
+import moment from "moment";
 
 const Header = () => {
   const currentDate = moment().format("dddd, MMMM D YYYY");
@@ -10,7 +10,7 @@ const Header = () => {
         {" "}
         <img src={logo} alt=""></img>
       </div>
-      <p className="text-center">Journalism Without Fear and Favour</p>
+      <p className="text-center">Journalism Without Fear and Favour !</p>
       <p className="text-center">{currentDate}</p>
     </div>
   );
