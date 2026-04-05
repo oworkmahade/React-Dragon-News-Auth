@@ -1,4 +1,5 @@
 import MarqueeModule from "react-fast-marquee";
+import {Link} from "react-router-dom";
 
 const Marquee = MarqueeModule.default;
 const BreakingNews = () => {
@@ -8,8 +9,13 @@ const BreakingNews = () => {
         Latest
       </button>
       <Marquee speed={150} pauseOnHover={true} gradient={false}>
-        I can be a React component, multiple React components, or just some
+        
+        <Link to='#'>
+                I can be a React component, multiple React components, or just some
         text.
+        </Link>
+
+
       </Marquee>
     </div>
   );
