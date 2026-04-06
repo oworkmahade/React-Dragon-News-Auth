@@ -1,47 +1,49 @@
+import { FaGoogle, FaGithub } from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaInstagram } from "react-icons/fa";
+
 const RightSideNav = () => {
   return (
-    <div className="p-4 border-2 border-gray-600">
-      <div className="p-4 border border-green-600 border-1 login-with">
-        <h2>Login With</h2>
+    <div className="">
+      <div className="border border-green-600 p- border-1 login-with">
+        <h2 className="mb-4 text-xl font-semibold">Login With</h2>
         <div className="flex flex-col items-start justify-center gap-4">
-          <button className="w-full btn">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              />
-            </svg>
-            Button
+          <button className="w-full text-blue-600 border-2 border-blue-600 btn">
+            <FaGoogle />
+            Login with Google
           </button>
-          <button className="w-full btn">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              />
-            </svg>
-            Button
+          <button className="w-full border-2 border-black btn">
+            <FaGithub />
+            Login with Github
           </button>
         </div>
       </div>
-      <div className="p-4 mt-4 border border-red-600">
-        <h2>Find Us On</h2>
+      <div className="mt-4 border border-red-600 ">
+        <h2 className="mb-4 text-xl font-semibold">Find Us On</h2>
+        <div className="w-64 overflow-hidden border rounded-lg shadow-sm">
+          {/* Facebook */}
+          <div className="flex items-center gap-3 py-3 border-b cursor-pointer hover:bg-gray-100">
+            <div className="p-2 text-blue-600 bg-gray-200 rounded-full">
+              <FaFacebookF />
+            </div>
+            <span className="font-medium text-gray-700">Facebook</span>
+          </div>
+
+          {/* Twitter */}
+          <div className="flex items-center gap-3 py-3 border-b cursor-pointer hover:bg-gray-100">
+            <div className="p-2 text-blue-400 bg-gray-200 rounded-full">
+              <FaTwitter />
+            </div>
+            <span className="font-medium text-gray-700">Twitter</span>
+          </div>
+
+          {/* Instagram */}
+          <div className="flex items-center gap-3 py-3 cursor-pointer hover:bg-gray-100">
+            <div className="p-2 text-pink-500 bg-gray-200 rounded-full">
+              <FaInstagram />
+            </div>
+            <span className="font-medium text-gray-700">Instagram</span>
+          </div>
+        </div>
       </div>
     </div>
   );
