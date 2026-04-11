@@ -1,20 +1,22 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-const Categories = ({ props }) => {
-  const { id, name } = props;
+const Categories = ({ category }) => {
+  const { id, name } = category;
   return (
     <div>
-      <Link to={`/category/${id}`}>
-        <h2 className="ml-4 text-md text-slate-500">{name}</h2>
+      <Link to={`/categoryDetails/${id}`}>
+        <h2 className="py-2 ml-8 font-semibold text-md text-slate-600">
+          {name}
+        </h2>
       </Link>
     </div>
   );
 };
 
 Categories.propTypes = {
-  props: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
+  category: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
   }).isRequired,
 };
 

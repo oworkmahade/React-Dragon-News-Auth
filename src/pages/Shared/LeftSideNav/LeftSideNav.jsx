@@ -9,8 +9,6 @@ const LeftSideNav = () => {
       .then((data) => setCategories(data));
   }, []);
 
-  console.log(categories);
-
   return (
     <div className="border-2 border-gray-600">
       <h2 className="mb-4 text-xl font-semibold">All Category</h2>
@@ -20,7 +18,7 @@ const LeftSideNav = () => {
       </p>
       <div className="">
         {categories.map((categoryItem) => (
-          <Categories key={categoryItem.id} props={categoryItem}></Categories>
+          <Categories key={categoryItem.id} category={categoryItem}></Categories>
         ))}
       </div>
     </div>
