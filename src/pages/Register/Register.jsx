@@ -16,13 +16,20 @@ const Register = () => {
     const photo = form.get("photo");
     const email = form.get("email");
     const password = form.get("password");
-    console.log(name, photo, email, password);
+    const termsChecked = form.get("terms");
+    if (!termsChecked) {
+      alert("Please accept the terms and conditions");
+      return;
+    }
+    console.log(name, photo, email, password, termsChecked);
   };
   return (
     <div>
       <Navbar></Navbar>
       <div className="w-3/5 p-16 m-auto mx-auto mt-6 mb-16 bg-gray-100 mx8-auto login-form">
-        <h2 className="text-2xl font-bold text-center">Login your account</h2>
+        <h2 className="text-2xl font-bold text-center">
+          Register your account
+        </h2>
         <hr className="w-2/5 mx-auto mt-2"></hr>
         <form
           onSubmit={handleRegister}
@@ -98,38 +105,15 @@ const Register = () => {
             </div>
           </div>
 
-          {/* confirm password  */}
-          {/* Password */}
-          <div className="text-sm font-medium">
-            <label htmlFor="confirmPassword" className="block mb-1">
-              Confirm Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="confirmPassword"
-                id="confirmPassword"
-                placeholder="Confirm your password"
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-                required
-              />
-
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute p-2 text-xl text-gray-600 border-none cursor-pointer right-3 top-1 bg-none"
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </button>
-            </div>
-          </div>
-
           {/* Checkbox */}
           <div className="flex items-center gap-2">
             <input type="checkbox" name="terms" id="terms" />
             <label htmlFor="terms" className="text-sm">
-              I agree to the{" "}
-              <a className="link link-hover" href="/terms-and-conditions">
+              Accept{" "}
+              <a
+                className="font-semibold link link-hover"
+                href="/terms-and-conditions"
+              >
                 terms and conditions
               </a>
             </label>
