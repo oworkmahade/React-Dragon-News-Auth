@@ -9,8 +9,12 @@ function Login() {
   // form handle login
   const handleLogin = (e) => {
     e.preventDefault();
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+
+    // different method rather then e.target.email.value etc
+
+    const form = new FormData(e.currentTarget);
+    const email = form.get("email");
+    const password = form.get("password");
     console.log(email, password);
   };
 
@@ -22,16 +26,16 @@ function Login() {
   return (
     <div>
       <Navbar></Navbar>
-      <div className="w-3/5 p-4 mx-auto bg-gray-300 login-form">
+      <div className="w-3/5 p-16 m-auto mb-16 bg-gray-100 mx-automt-6 mx8-auto login-form">
         <h2 className="text-2xl font-bold text-center">Login your account</h2>
         <hr className="w-2/5 mx-auto mt-2"></hr>
         <form
           onSubmit={handleLogin}
-          className="w-1/3 p-4 mx-auto mt-6 space-y-4 border-2 rounded-lg border-slate-400"
+          className="w-4/6 p-8 mx-auto mt-6 space-y-4 border-2 rounded-lg border-slate-400"
         >
           {/* Email */}
-          <div>
-            <label htmlFor="email" className="block mb-1 font-medium">
+          <div className="text-sm font-medium">
+            <label htmlFor="email" className="block mb-1">
               Email address
             </label>
             <input
@@ -46,8 +50,8 @@ function Login() {
           </div>
 
           {/* Password */}
-          <div>
-            <label htmlFor="password" className="block mb-1 font-medium">
+          <div className="text-sm font-medium">
+            <label htmlFor="password" className="block mb-1">
               Password
             </label>
             <input
@@ -61,7 +65,7 @@ function Login() {
           </div>
 
           {/* password reset */}
-          <div className="my-4">
+          <div className="my-4 text-sm font-medium">
             <button
               type="button"
               onClick={handlePasswordReset}
