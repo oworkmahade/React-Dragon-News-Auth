@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Navbar from "../Shared/Navbar/Navbar";
+import { AuthContext } from "../../providers/AuthProvider";
+// import firebase from "firebase/compat/app";
 const Register = () => {
+  const authInfo = useContext(AuthContext);
+  const { createUser } = authInfo;
+
   // state or showing password
   const [showPassword, setShowPassword] = useState(null);
   // form handle register
@@ -21,8 +26,18 @@ const Register = () => {
       alert("Please accept the terms and conditions");
       return;
     }
-    console.log(name, photo, email, password, termsChecked);
+
+    // create user with email and password using createUser function from auth context.
+    createUser(email, password)
+      .then((result) => {
+        e.target.reset(" ");
+        console.log(result.user);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
+
   return (
     <div>
       <Navbar></Navbar>

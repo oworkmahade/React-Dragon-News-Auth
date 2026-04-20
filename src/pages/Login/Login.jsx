@@ -1,21 +1,33 @@
 import Navbar from "../Shared/Navbar/Navbar";
 import { Link } from "react-router-dom";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
 
 function Login() {
   // state for holding email from input field using useRef
   const emailRef = useRef(null);
 
+  // receiving signInUser
+  const authInfo = useContext(AuthContext);
+  const { signInUser } = authInfo;
+
   // form handle login
   const handleLogin = (e) => {
     e.preventDefault();
-
     // different method rather then e.target.email.value etc
-
     const form = new FormData(e.currentTarget);
     const email = form.get("email");
     const password = form.get("password");
-    console.log(email, password);
+
+    signInUser(email, password)
+      .then((result) => {
+        e.target.reset(" ");
+        const loggedUser = result.user;
+        console.log(loggedUser.email, "login successful");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
   };
 
   // handle password reset
