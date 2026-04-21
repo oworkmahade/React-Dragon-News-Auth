@@ -1,15 +1,22 @@
 import { useContext, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../Shared/Navbar/Navbar";
 import { AuthContext } from "../../providers/AuthProvider";
-// import firebase from "firebase/compat/app";
+
 const Register = () => {
   const authInfo = useContext(AuthContext);
   const { createUser } = authInfo;
 
+  // navigation
+  const navigate = useNavigate();
+
   // state or showing password
   const [showPassword, setShowPassword] = useState(null);
+
+  // error state
+  const [errors, setErrors] = useState({});
+
   // form handle register
   const handleRegister = (e) => {
     e.preventDefault();
@@ -22,19 +29,60 @@ const Register = () => {
     const email = form.get("email");
     const password = form.get("password");
     const termsChecked = form.get("terms");
+
+    // validation
+    const newErrors = {};
+
+    // 🔹 Name
+    if (!name || name.trim().length < 3) {
+      newErrors.name = "Name must be at least 3 characters";
+    }
+
+    // 🔹 Photo URL
+    const urlPattern = /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))$/i;
+    if (!urlPattern.test(photo)) {
+      newErrors.photo = "Enter a valid image URL (jpg, png, etc.)";
+    }
+
+    // 🔹 Email
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      newErrors.email = "Enter a valid email address";
+    }
+
+    // 🔹 Password
+    if (password.length < 6) {
+      newErrors.password = "At least 6 characters required";
+    } else if (!/[A-Z]/.test(password)) {
+      newErrors.password = "Must include an uppercase letter";
+    } else if (!/[a-z]/.test(password)) {
+      newErrors.password = "Must include a lowercase letter";
+    } else if (!/[0-9]/.test(password)) {
+      newErrors.password = "Must include a number";
+    }
+
+    // 🔹 Terms
     if (!termsChecked) {
-      alert("Please accept the terms and conditions");
+      newErrors.terms = "You must accept the terms";
+    }
+
+    // ❌ If errors exist → stop
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
+    // ✅ Clear errors
+    setErrors({});
 
     // create user with email and password using createUser function from auth context.
     createUser(email, password)
       .then((result) => {
-        e.target.reset(" ");
-        console.log(result.user);
+        e.target.reset();
+        setErrors({});
+        navigate("/");
       })
       .catch((error) => {
-        console.log(error.message);
+        setErrors({ firebase: error.message });
       });
   };
 
@@ -63,6 +111,9 @@ const Register = () => {
               className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
+            {errors.name && (
+              <p className="text-sm text-red-500">{errors.name}</p>
+            )}
           </div>
 
           {/* Photo URL */}
@@ -78,6 +129,9 @@ const Register = () => {
               className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
+            {errors.photo && (
+              <p className="text-sm text-red-500">{errors.photo}</p>
+            )}
           </div>
 
           {/* Email */}
@@ -93,6 +147,9 @@ const Register = () => {
               className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
+            {errors.email && (
+              <p className="text-sm text-red-500">{errors.email}</p>
+            )}
           </div>
 
           {/* Password */}
@@ -117,6 +174,9 @@ const Register = () => {
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
+              {errors.password && (
+                <p className="text-sm text-red-500">{errors.password}</p>
+              )}
             </div>
           </div>
 
@@ -131,6 +191,9 @@ const Register = () => {
               >
                 terms and conditions
               </a>
+              {errors.terms && (
+                <p className="text-sm text-red-500">{errors.terms}</p>
+              )}
             </label>
           </div>
           {/* Register Button */}
@@ -140,6 +203,10 @@ const Register = () => {
           >
             Register
           </button>
+
+          {errors.firebase && (
+            <p className="text-center text-red-600">{errors.firebase}</p>
+          )}
         </form>
 
         {/* Login Link */}

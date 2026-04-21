@@ -1,15 +1,18 @@
 import Navbar from "../Shared/Navbar/Navbar";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 
 function Login() {
   // state for holding email from input field using useRef
   const emailRef = useRef(null);
+  // error state
+  const [errors, setErrors] = useState({});
+  const [resetMsg, setResetMsg] = useState("");
 
   // receiving signInUser
   const authInfo = useContext(AuthContext);
-  const { signInUser } = authInfo;
+  const { signInUser, resetPassword } = authInfo;
 
   const navigate = useNavigate();
 
@@ -21,6 +24,37 @@ function Login() {
     const email = form.get("email");
     const password = form.get("password");
 
+    const tempErrors = {};
+    // EMAIL VALIDATION
+    if (!email) {
+      tempErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      tempErrors.email = "Enter a valid email address";
+    }
+
+    // PASSWORD VALIDATION
+    if (!password) {
+      tempErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      tempErrors.password = "Password must be at least 6 characters";
+    } else if (!/(?=.*[a-z])/.test(password)) {
+      tempErrors.password = "Must include a lowercase letter";
+    } else if (!/(?=.*[A-Z])/.test(password)) {
+      tempErrors.password = "Must include an uppercase letter";
+    } else if (!/(?=.*\d)/.test(password)) {
+      tempErrors.password = "Must include a number";
+    } else if (!/(?=.*[@$!%*?&])/.test(password)) {
+      tempErrors.password = "Must include a special character (@$!%*?&)";
+    }
+    // STOP IF ERRORS EXIST
+
+    if (Object.keys(tempErrors).length > 0) {
+      setErrors(tempErrors);
+      return;
+    }
+
+    setErrors({}); // clear errors if validation passed
+
     signInUser(email, password)
       .then((result) => {
         e.target.reset(" ");
@@ -29,13 +63,29 @@ function Login() {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error.message);
+        setErrors({ auth: error.message });
       });
   };
 
   // handle password reset
   const handlePasswordReset = () => {
-    console.log("password reset link clicked");
+    const email = emailRef.current?.value;
+
+    const tempErrors = {};
+    if (!email) {
+      tempErrors.email = "Email is required for password reset";
+      setErrors(tempErrors);
+      return;
+    }
+    setErrors({}); // clear errors if email is provided
+
+    resetPassword(email)
+      .then(() => {
+        setResetMsg("Password reset email sent. Please check your inbox.");
+      })
+      .catch((error) => {
+        setErrors({ auth: error.message });
+      });
   };
 
   return (
@@ -62,6 +112,11 @@ function Login() {
               className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
+            <span>
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+              )}
+            </span>
           </div>
 
           {/* Password */}
@@ -77,6 +132,11 @@ function Login() {
               className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
+            <span>
+              {errors.password && (
+                <p className="mt-1 text-sm text-red-500">{errors.password}</p>
+              )}
+            </span>
           </div>
 
           {/* password reset */}
@@ -89,6 +149,12 @@ function Login() {
             >
               Forgot password?
             </button>
+
+            <span>
+              {resetMsg && (
+                <p className="text-sm text-center text-green-600">{resetMsg}</p>
+              )}
+            </span>
           </div>
 
           {/* Submit Button */}
@@ -112,6 +178,11 @@ function Login() {
             </Link>
           </span>
         </p>
+        <span>
+          {errors.auth && (
+            <p className="text-sm text-center text-red-600">{errors.auth}</p>
+          )}
+        </span>
       </div>
     </div>
   );
