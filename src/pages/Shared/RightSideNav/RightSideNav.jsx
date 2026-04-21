@@ -5,19 +5,54 @@ import qZone1 from "../../../assets/swimming.png";
 import qZone2 from "../../../assets/class.png";
 import qZone3 from "../../../assets/playground.png";
 import bg from "../../../assets/bg.png";
+import { useContext } from "react";
+import { AuthContext } from "../../../providers/AuthProvider";
 
 const RightSideNav = () => {
+  const authInfo = useContext(AuthContext);
+  const { googleSignIn, githubSignIn } = authInfo;
+
+  // google sign in handler
+  const handleGoogleSignIn = () => {
+    googleSignIn()
+      .then((result) => {
+        const loggedUser = result.user;
+        console.log(loggedUser.email, "google sign in successful");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  // github sign in handler
+  const handleGitHubSignIn = () => {
+    githubSignIn()
+      .then((result) => {
+        const loggedUser = result.user;
+        console.log(loggedUser.email, "github sign in successful");
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   return (
     <div className="">
       {/* login with  */}
       <div className=" login-with">
         <h2 className="mb-4 text-xl font-semibold">Login With</h2>
         <div className="flex flex-col items-start justify-center gap-4">
-          <button className="w-full text-blue-600 border-2 border-blue-600 btn">
+          <button
+            onClick={handleGoogleSignIn}
+            className="w-full text-blue-600 border-2 border-blue-600 btn"
+          >
             <FaGoogle />
             Login with Google
           </button>
-          <button className="w-full border-2 border-black btn">
+          <button
+            onClick={handleGitHubSignIn}
+            className="w-full border-2 border-black btn"
+          >
             <FaGithub />
             Login with Github
           </button>

@@ -1,5 +1,5 @@
 import Navbar from "../Shared/Navbar/Navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useRef } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 
@@ -10,6 +10,8 @@ function Login() {
   // receiving signInUser
   const authInfo = useContext(AuthContext);
   const { signInUser } = authInfo;
+
+  const navigate = useNavigate();
 
   // form handle login
   const handleLogin = (e) => {
@@ -24,6 +26,7 @@ function Login() {
         e.target.reset(" ");
         const loggedUser = result.user;
         console.log(loggedUser.email, "login successful");
+        navigate("/");
       })
       .catch((error) => {
         console.log(error.message);

@@ -75,6 +75,7 @@ const Navbar = () => {
               </div>
             </label>
           </div>
+          {/* conditional rendering of login/logout button  */}
           <div>
             {user ? (
               <>

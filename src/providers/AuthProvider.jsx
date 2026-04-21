@@ -1,11 +1,14 @@
-import { createContext, useState,useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import app from "../firebase/firebase.config";
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  GithubAuthProvider,
+  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
 } from "firebase/auth";
 
@@ -51,12 +54,26 @@ function AuthProvider({ children }) {
     };
   }, []);
 
+  // google sign in
+  const googleProvider = new GoogleAuthProvider();
+  const googleSignIn = () => {
+    return signInWithPopup(auth, googleProvider);
+  };
+
+// github sign in 
+  const githubProvider = new GithubAuthProvider();
+  const githubSignIn = () => {
+    return signInWithPopup(auth, githubProvider);
+  };
+
   // value to pass to all child
   const authInfo = {
     user,
     createUser,
     signInUser,
     logOut,
+    googleSignIn,
+    githubSignIn,
   };
 
   return (
