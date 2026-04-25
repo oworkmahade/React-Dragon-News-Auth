@@ -25,23 +25,30 @@ function AuthProvider({ children }) {
   // state declaration for user used in observer (unsubscribe)
   const [user, setUser] = useState(null);
 
+  // loading state
+  const [loading, setLoading] = useState(true);
+
   // register / sign-up
   const createUser = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   // login / unsubscribe
   const signInUser = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   // reset password function
   const resetPassword = (email) => {
+    setLoading(true);
     return sendPasswordResetEmail(auth, email);
   };
 
   // logout / sign-out
   const logOut = () => {
+    setLoading(true);
     return signOut(auth);
   };
   // setting an observer, getting currently signed-in user and putting into user state
@@ -53,6 +60,7 @@ function AuthProvider({ children }) {
         "Observing current user inside useEffect of AuthProvider",
         currentUser,
       );
+      setLoading(false); // ✅ very important
     });
 
     return () => {
@@ -63,12 +71,14 @@ function AuthProvider({ children }) {
   // google sign in
   const googleProvider = new GoogleAuthProvider();
   const googleSignIn = () => {
+    setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
 
   // github sign in
   const githubProvider = new GithubAuthProvider();
   const githubSignIn = () => {
+    setLoading(true);
     return signInWithPopup(auth, githubProvider);
   };
 
@@ -81,6 +91,7 @@ function AuthProvider({ children }) {
     googleSignIn,
     githubSignIn,
     resetPassword,
+    loading,
   };
 
   return (

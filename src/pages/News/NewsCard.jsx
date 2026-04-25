@@ -3,7 +3,7 @@ import { FaEye, FaStar, FaShareAlt, FaRegBookmark } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const NewsCard = ({ singleNews }) => {
-  const { id, title, author, thumbnail_url, details, rating, total_view } =
+  const { id, title, author, image_url, details, rating, total_view } =
     singleNews || {};
   return (
     <div className="p-4 mb-6 bg-white border rounded-lg shadow-sm">
@@ -35,18 +35,18 @@ const NewsCard = ({ singleNews }) => {
 
       {/* Image */}
       <img
-        src={thumbnail_url}
+        src={image_url}
         alt="news"
         className="object-cover w-full mb-3 rounded"
       />
 
       {/* Details */}
       <p className="text-sm text-gray-600">
-        {details.length > 150 ? (
+        {details.length > 200 ? (
           <>
-            {details.slice(0, 150)}...
+            {details.slice(0, 200)}...
             <span className="ml-1 font-semibold text-orange-500 cursor-pointer">
-              <Link to={`/news/${id}`}>Read More</Link>
+              <Link to={`/newsDetails/${id}`}>Read More</Link>
             </span>
           </>
         ) : (
@@ -58,7 +58,7 @@ const NewsCard = ({ singleNews }) => {
       <div className="flex items-center justify-between mt-4">
         {/* Rating */}
         <div className="flex items-center gap-1 text-orange-400">
-          {[...Array(5)].map((_, i) => (
+          {[...new Array(5)].map((_, i) => (
             <FaStar key={i} />
           ))}
           <span className="ml-2 text-gray-700">{rating.number}</span>
